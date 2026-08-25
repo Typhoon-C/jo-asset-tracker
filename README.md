@@ -1,5 +1,7 @@
 # JO Asset Tracker
 
+(In Progress, backend not yet developed)
+
 A clean full-stack project for an IT Asset & Service Request Tracker built with:
 
 - Angular 22
