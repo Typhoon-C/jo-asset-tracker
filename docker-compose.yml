@@ -1,0 +1,66 @@
+services:
+  mariadb:
+    image: mariadb:11.4
+    container_name: jo-asset-tracker-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: jo_asset_tracker
+      MARIADB_USER: app
+      MARIADB_PASSWORD: app
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: jo-asset-tracker-pma
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
+
+  backend:
+    build:
+      context: ./backend
+    container_name: jo-asset-tracker-backend
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: dev
+      APP_SECRET: change-me-in-production
+      DATABASE_URL: mysql://app:app@mariadb:3306/jo_asset_tracker?serverVersion=mariadb-11.4.0&charset=utf8mb4
+    working_dir: /var/www/project
+    command: sh -c "composer install --no-interaction --prefer-dist && php -S 0.0.0.0:8000 -t public"
+    volumes:
+      - ./backend:/var/www/project
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: jo-asset-tracker-frontend
+    restart: unless-stopped
+    ports:
+      - "4200:4200"
+    working_dir: /workspace
+    command: sh -c "npm install && npm start -- --host 0.0.0.0 --port 4200"
+    volumes:
+      - ./frontend:/workspace
+
+volumes:
+  mariadb-data:

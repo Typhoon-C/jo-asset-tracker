@@ -1,0 +1,27 @@
+# Node / Angular
+node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+
+# Symfony
+backend/var/
+backend/vendor/
+backend/.env.local
+backend/.env.*.local
+
+# Docker
+*.log
+
+tmp/
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Build output
+build/
+
+# Obsolete scaffold
+backend-skeleton/
