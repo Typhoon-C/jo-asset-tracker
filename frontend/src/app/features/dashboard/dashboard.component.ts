@@ -13,7 +13,7 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
         <p class="eyebrow">Overview</p>
         <h1>Operations dashboard</h1>
       </div>
-      <button class="primary-button">Create Request</button>
+      <a class="primary-button" routerLink="/service-requests/new">Create request</a>
     </section>
 
     <section class="stats-grid">
@@ -102,12 +102,14 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
     }
 
     .primary-button {
+      display: inline-block;
       border: none;
       background: linear-gradient(135deg, #3b82f6, #2563eb);
       color: white;
       padding: 0.8rem 1.2rem;
       border-radius: 10px;
       font-weight: 700;
+      text-decoration: none;
       cursor: pointer;
     }
 

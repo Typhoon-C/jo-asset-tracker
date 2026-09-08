@@ -21,6 +21,24 @@ export interface ServiceRequest {
   createdAt: string;
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  department: string;
+  status: 'Active' | 'Inactive';
+}
+
+export interface Department {
+  id: string;
+  name: string;
+  manager: string;
+  location: string;
+  memberCount: number;
+  description: string;
+}
+
 export const summaryCards = [
   { label: 'Total Assets', value: '312', trend: '+12%' },
   { label: 'Open Requests', value: '24', trend: '-8%' },
@@ -118,4 +136,50 @@ export const serviceRequests: ServiceRequest[] = [
     status: 'Open',
     createdAt: '2026-08-14'
   }
+];
+
+export const departments: Department[] = [
+  {
+    id: 'DEP-001',
+    name: 'Information Technology',
+    manager: 'Alicia Hart',
+    location: 'HQ - Floor 3',
+    memberCount: 18,
+    description: 'Infrastructure, support, security, and workplace technology.'
+  },
+  {
+    id: 'DEP-002',
+    name: 'Finance',
+    manager: 'Marcus Chen',
+    location: 'HQ - Floor 2',
+    memberCount: 12,
+    description: 'Financial planning, reporting, and accounts operations.'
+  },
+  {
+    id: 'DEP-003',
+    name: 'Operations',
+    manager: 'Nina Patel',
+    location: 'HQ - Floor 1',
+    memberCount: 24,
+    description: 'Daily business operations, facilities, and vendor coordination.'
+  },
+  {
+    id: 'DEP-004',
+    name: 'People & Culture',
+    manager: 'Sofia Williams',
+    location: 'HQ - Floor 1',
+    memberCount: 8,
+    description: 'People operations, onboarding, and employee experience.'
+  }
+];
+
+export const users: User[] = [
+  { id: 'USR-1001', name: 'Alicia Hart', email: 'alicia.hart@jo.example', role: 'IT Manager', department: 'Information Technology', status: 'Active' },
+  { id: 'USR-1002', name: 'Kurt James', email: 'kurt.james@jo.example', role: 'Systems Analyst', department: 'Information Technology', status: 'Active' },
+  { id: 'USR-1003', name: 'Maria Silva', email: 'maria.silva@jo.example', role: 'Finance Analyst', department: 'Finance', status: 'Active' },
+  { id: 'USR-1004', name: 'Marcus Chen', email: 'marcus.chen@jo.example', role: 'Finance Manager', department: 'Finance', status: 'Active' },
+  { id: 'USR-1005', name: 'Nina Patel', email: 'nina.patel@jo.example', role: 'Operations Manager', department: 'Operations', status: 'Active' },
+  { id: 'USR-1006', name: 'John Boyle', email: 'john.boyle@jo.example', role: 'Operations Coordinator', department: 'Operations', status: 'Active' },
+  { id: 'USR-1007', name: 'Sofia Williams', email: 'sofia.williams@jo.example', role: 'People Partner', department: 'People & Culture', status: 'Active' },
+  { id: 'USR-1008', name: 'Daniel Reed', email: 'daniel.reed@jo.example', role: 'Support Specialist', department: 'Information Technology', status: 'Inactive' }
 ];

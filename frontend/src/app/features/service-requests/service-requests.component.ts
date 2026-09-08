@@ -20,7 +20,7 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
       <div class="toolbar" role="tablist" aria-label="Request status filters">
         <button class="filter" [class.active]="selectedFilter === 'All'" type="button" (click)="selectedFilter = 'All'">All</button>
         <button class="filter" [class.active]="selectedFilter === 'Open'" type="button" (click)="selectedFilter = 'Open'">Open</button>
-        <button class="filter" [class.active]="selectedFilter === 'In progress'" type="button" (click)="selectedFilter = 'In progress'">In progress</button>
+        <button class="filter" [class.active]="selectedFilter === 'In Progress'" type="button" (click)="selectedFilter = 'In Progress'">In progress</button>
         <button class="filter" [class.active]="selectedFilter === 'Resolved'" type="button" (click)="selectedFilter = 'Resolved'">Resolved</button>
       </div>
 
