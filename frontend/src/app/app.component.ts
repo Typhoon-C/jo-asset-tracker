@@ -108,6 +108,12 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
       color: white;
     }
 
+    .nav a:focus-visible,
+    .brand:focus-visible {
+      outline: 2px solid #93c5fd;
+      outline-offset: 3px;
+    }
+
     .sidebar-card {
       margin-top: auto;
       background: rgba(30, 41, 59, 0.8);
@@ -141,8 +147,27 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
       .sidebar {
         width: 100%;
+        padding: 1rem;
+        gap: 1rem;
         border-right: none;
         border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+
+      .nav {
+        display: flex;
+        gap: 0.35rem;
+        overflow-x: auto;
+        padding-bottom: 0.2rem;
+      }
+
+      .nav a {
+        flex: 0 0 auto;
+        padding: 0.65rem 0.75rem;
+        font-size: 0.88rem;
+      }
+
+      .sidebar-card {
+        display: none;
       }
 
       .content {

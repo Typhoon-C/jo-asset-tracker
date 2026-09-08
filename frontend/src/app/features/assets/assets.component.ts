@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { assets } from '../../core/mock-data';
 import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.component';
@@ -6,20 +7,25 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
 @Component({
   selector: 'app-assets',
   standalone: true,
-  imports: [StatusBadgeComponent, RouterLink],
+  imports: [StatusBadgeComponent, RouterLink, FormsModule],
   template: `
     <section class="page-header">
       <div>
         <p class="eyebrow">Inventory</p>
         <h1>Assets</h1>
       </div>
-      <button class="primary-button">Add asset</button>
+      <button class="primary-button" type="button" disabled title="Asset creation will be connected to the backend later">Add asset</button>
     </section>
 
     <section class="panel">
       <div class="toolbar">
-        <input type="text" placeholder="Search asset, owner, tag..." />
-        <button class="secondary-button">Filter</button>
+        <input
+          type="search"
+          placeholder="Search asset, owner, tag..."
+          aria-label="Search assets"
+          [(ngModel)]="searchTerm"
+        />
+        <button class="secondary-button" type="button">Filter</button>
       </div>
 
       <div class="table">
@@ -31,7 +37,7 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
           <span>Status</span>
         </div>
 
-        @for (asset of assets; track asset.id) {
+        @for (asset of filteredAssets; track asset.id) {
           <a [routerLink]="['/assets', asset.id]" class="table-row link">
             <div class="asset-name">
               <strong>{{ asset.name }}</strong>
@@ -42,6 +48,8 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
             <span>{{ asset.location }}</span>
             <app-status-badge [status]="asset.status" />
           </a>
+        } @empty {
+          <p class="empty-state">No assets match your search.</p>
         }
       </div>
     </section>
@@ -86,6 +94,11 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
 
     .primary-button {
       background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    .primary-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
     }
 
     .secondary-button {
@@ -151,6 +164,12 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
       opacity: 0.8;
     }
 
+    .empty-state {
+      margin: 1rem 0 0;
+      color: #94a3b8;
+      text-align: center;
+    }
+
     .asset-name {
       display: grid;
       gap: 0.2rem;
@@ -175,4 +194,17 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
 })
 export class AssetsComponent {
   readonly assets = assets;
+  searchTerm = '';
+
+  get filteredAssets() {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) {
+      return this.assets;
+    }
+
+    return this.assets.filter(asset =>
+      [asset.name, asset.tag, asset.owner, asset.location, asset.type]
+        .some(value => value.toLowerCase().includes(term))
+    );
+  }
 }

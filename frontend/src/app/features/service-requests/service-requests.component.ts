@@ -17,15 +17,15 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
     </section>
 
     <section class="panel">
-      <div class="toolbar">
-        <button class="filter active">All</button>
-        <button class="filter">Open</button>
-        <button class="filter">In progress</button>
-        <button class="filter">Resolved</button>
+      <div class="toolbar" role="tablist" aria-label="Request status filters">
+        <button class="filter" [class.active]="selectedFilter === 'All'" type="button" (click)="selectedFilter = 'All'">All</button>
+        <button class="filter" [class.active]="selectedFilter === 'Open'" type="button" (click)="selectedFilter = 'Open'">Open</button>
+        <button class="filter" [class.active]="selectedFilter === 'In progress'" type="button" (click)="selectedFilter = 'In progress'">In progress</button>
+        <button class="filter" [class.active]="selectedFilter === 'Resolved'" type="button" (click)="selectedFilter = 'Resolved'">Resolved</button>
       </div>
 
       <div class="list">
-        @for (request of serviceRequests; track request.id) {
+        @for (request of filteredRequests; track request.id) {
           <a [routerLink]="['/service-requests', request.id]" class="request-row link">
             <div>
               <span class="request-id">{{ request.id }}</span>
@@ -38,6 +38,8 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
               <small>{{ request.createdAt }}</small>
             </div>
           </a>
+        } @empty {
+          <p class="empty-state">No requests match this filter.</p>
         }
       </div>
     </section>
@@ -132,14 +134,10 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
       opacity: 0.8;
     }
 
-    .request-row.link {
-      display: inline-block;
-      margin-bottom: 0.5rem;
-      color: #93c5fd;
-      font-weight: 700;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .empty-state {
+      margin: 1rem 0;
+      color: #94a3b8;
+      text-align: center;
     }
 
     .request-row h3 {
@@ -211,4 +209,13 @@ import { StatusBadgeComponent } from '../../shared/status-badge/status-badge.com
 })
 export class ServiceRequestsComponent {
   readonly serviceRequests = serviceRequests;
+  selectedFilter = 'All';
+
+  get filteredRequests() {
+    if (this.selectedFilter === 'All') {
+      return this.serviceRequests;
+    }
+
+    return this.serviceRequests.filter(request => request.status === this.selectedFilter);
+  }
 }
